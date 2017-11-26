@@ -5,6 +5,6 @@ LABEL maintainer="Liam Martens <hi@liammartens.com>"
 # install beanstalkd
 RUN apk add beanstalkd
 
-# copy run file
-COPY scripts/run.sh ${ENV_DIR}/scripts/continue.sh
+# copy continue file
+COPY scripts/continue.sh ${ENV_DIR}/scripts/continue.sh
 RUN chmod +x ${ENV_DIR}/scripts/continue.sh
