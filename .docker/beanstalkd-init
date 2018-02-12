@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# check beanstalkd port and set default if none
+if [ -z "$BEANSTALKD_PORT" ]; then
+	export BEANSTALKD_PORT=11300
+fi
+
+# get ip addresses and export them as environment variables
+export BEANSTALKD_TCP=$(awk 'END{print $1}' /etc/hosts)

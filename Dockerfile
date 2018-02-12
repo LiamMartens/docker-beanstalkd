@@ -1,10 +1,21 @@
-ARG USER='beanstalkd'
+ARG USER=beanstalkd
 FROM liammartens/alpine
 LABEL maintainer="Liam Martens <hi@liammartens.com>"
 
-# install beanstalkd
-RUN apk add beanstalkd
+# @user Switch to root for install
+USER root
 
-# copy continue file
-COPY scripts/continue.sh ${ENV_DIR}/scripts/continue.sh
-RUN chmod +x ${ENV_DIR}/scripts/continue.sh
+# @run Install beanstalkd
+RUN apk add --update beanstalkd
+
+# @copy Copy additional run files
+COPY .docker ${DOCKER_DIR}
+
+# @run Make the file(s) executable
+RUN chmod -R +x ${DOCKER_DIR}
+
+# @user Back to non-root user
+USER ${USER}
+
+# @run Start beanstalkd
+CMD [ "-c", "beanstalkd -l $BEANSTALKD_TCP -p $BEANSTALKD_PORT -V" ]
